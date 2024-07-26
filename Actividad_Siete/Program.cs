@@ -1,60 +1,73 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
- List<int> lista = new List<int>();
+
+List<int> lista = new List<int>();
 
 while (true)
 {
-    Console.Clear();
-    Menu();
-    Console.Write("Seleccione una opción: ");
-    int opcion = Convert.ToInt32(Console.ReadLine());
-
-    switch (opcion)
+    try
     {
-        case 1:
-            Menu();
-            break;
-        case 2:
-            lista = Numeros();
-            break;
-        case 3:
-            if (lista != null && lista.Count > 0)
-            {
-                int moda = CalcularModa(lista);
-                Console.WriteLine($"La moda de la lista es: {moda}");
-            }
-            else
-            {
-                Console.WriteLine("Primero debe ingresar los números.");
-            }
-            break;
-        case 4:
-            if (lista != null && lista.Count > 0)
-            {
-                double mediana = CalcularMediana(lista);
-                Console.WriteLine($"La mediana de la lista es: {mediana}");
-            }
-            else
-            {
-                Console.WriteLine("Primero debe ingresar los números.");
-            }
-            break;
-        case 5:
-            if (lista != null && lista.Count > 0)
-            {
-                double desviacion = CalcularDesviacion(lista);
-                Console.WriteLine($"La desviación estándar de la lista es: {desviacion}");
-            }
-            else
-            {
-                Console.WriteLine("Primero debe ingresar los números.");
-            }
-            break;
-        default:
-            Console.WriteLine("Opción inválida. Intente de nuevo.");
-            break;
+        Console.Clear();
+        Menu();
+        Console.Write("Seleccione una opción: ");
+        int opcion = Convert.ToInt32(Console.ReadLine());
+
+        switch (opcion)
+        {
+            case 1:
+                Menu();
+                break;
+            case 2:
+                lista = Numeros();
+                break;
+            case 3:
+                if (lista != null && lista.Count > 0)
+                {
+                    int moda = CalcularModa(lista);
+                    Console.WriteLine("la moda es:"+moda);
+                }
+                else
+                {
+                    Console.WriteLine("Primero debe ingresar los números.");
+                }
+                break;
+            case 4:
+                if (lista != null && lista.Count > 0)
+                {
+                    double mediana = CalcularMediana(lista);
+                    Console.WriteLine("La mediana de la lista es:"+mediana);
+                }
+                else
+                {
+                    Console.WriteLine("Primero debe ingresar los números.");
+                }
+                break;
+            case 5:
+                if (lista != null && lista.Count > 0)
+                {
+                    double desviacion = CalcularDesviacion(lista);
+                    Console.WriteLine($"La desviación estándar de la lista es: {desviacion}");
+                }
+                else
+                {
+                    Console.WriteLine("Primero debe ingresar los números.");
+                }
+                break;
+            default:
+                Console.WriteLine("Opción inválida. Intente de nuevo.");
+                break;
+        }
     }
+    catch (FormatException ex)
+    {
+        Console.WriteLine($"Error de formato: {ex.Message}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Se ha producido un error: {ex.Message}");
+    }
+
     Console.WriteLine("\nPresiona Enter para continuar...");
     Console.ReadLine();
 }
@@ -70,17 +83,30 @@ static void Menu()
 
 static List<int> Numeros()
 {
-    Console.Write("Ingrese el límite de la lista: ");
-    int limite = Convert.ToInt32(Console.ReadLine());
-
-    List<int> lista = new List<int>();
-    for (int i = 0; i < limite; i++)
+    try
     {
-        Console.Write($"Ingrese el valor {i + 1}: ");
-        int valor = Convert.ToInt32(Console.ReadLine());
-        lista.Add(valor);
+        Console.Write("Ingrese el límite de la lista: ");
+        int limite = Convert.ToInt32(Console.ReadLine());
+
+        List<int> lista = new List<int>();
+        for (int i = 0; i < limite; i++)
+        {
+            Console.Write($"Ingrese el valor {i + 1}: ");
+            int valor = Convert.ToInt32(Console.ReadLine());
+            lista.Add(valor);
+        }
+        return lista;
     }
-    return lista;
+    catch (FormatException ex)
+    {
+        Console.WriteLine($"Error de formato: {ex.Message}");
+        return new List<int>();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Se ha producido un error: {ex.Message}");
+        return new List<int>();
+    }
 }
 
 static int CalcularModa(List<int> lista)
@@ -140,3 +166,4 @@ static double CalcularDesviacion(List<int> lista)
     double varianza = sumaDesviacion / lista.Count;
     return Math.Sqrt(varianza);
 }
+
